@@ -1,0 +1,30 @@
+1. Project OverviewThe College Complaint Management System is a centralized web-based platform designed to replace traditional paper-based or manual complaint handling in educational institutions. It provides students with a seamless digital interface to lodge issues related to campus infrastructure, hostels, Wi-Fi, cleanliness, labs, and transportation while enabling administrators to efficiently assign, track, prioritize, and resolve complaints.2. Tech StackFrontend: React.js, React Router, Axios, Tailwind CSS / BootstrapBackend: Node.js, Express.jsDatabase: MongoDB (MongoDB Atlas) using Mongoose ORMAuthentication: JSON Web Tokens (JWT) & bcrypt.jsFile Storage: Cloudinary (for image/file attachments)3. Core FeaturesUser Authentication: Multi-role access (Student and Admin) with password hashing.Complaint Submission: Form submission with category selection, issue location, detailed description, priority tagging, and optional image attachments.Status Lifecycle: Submitted $\rightarrow$ Under Review $\rightarrow$ Assigned $\rightarrow$ In Progress $\rightarrow$ Resolved $\rightarrow$ Closed.Admin Management: View all complaints, filter by status/category/priority, assign responsible department/staff, and post resolution comments.Dashboards & History: Student dashboard for submission tracking and Admin dashboard for workflow management and basic resolution metrics.4. Authentication & AuthorizationRegistration & Login: JWT-based stateless authentication issuing tokens stored in HTTP-only cookies or local storage.Role-Based Access Control (RBAC): Middleware checks (verifyToken, verifyAdmin) to restrict administrative endpoints to authorized users.5. Frontend Pages & Routes/login & /register — Authentication pages/student/dashboard — Student landing view showing personal complaint history and status summaries/student/complaint/new — Form for lodging new complaints with file upload/student/complaint/:id — Detailed complaint view showing updates and final resolution/admin/dashboard — Administrative control panel with search, filters, and resolution metrics/admin/complaint/:id — Detail view for admins to update status, assign department, and add comments6. Backend ArchitectureModular MVC structure separating routing, middleware execution, request controllers, and database models.Centralized middleware execution for global CORS policies, error handling, authentication validation, and file upload processing (Multer + Cloudinary).7. Database Collections / SchemaUsers Collection_id: ObjectIdname: Stringemail: String (Unique)password: String (Hashed)role: String (student | admin)department: String (Optional)createdAt: TimestampComplaints Collection_id: ObjectIdstudentId: Ref (Users)title: Stringcategory: String (Classroom, Lab, Hostel, Wi-Fi, Cleanliness, Infrastructure, Transportation)description: Stringlocation: StringimageURL: String (Optional)priority: String (Low, Medium, High, Critical)status: String (Submitted, Under Review, Assigned, In Progress, Resolved, Closed)assignedTo: String / Ref (Department/Staff)adminComments: StringresolutionDetails: StringcreatedAt: TimestampupdatedAt: Timestamp8. API Endpoints CatalogMethodEndpointAccessDescriptionPOST/api/auth/registerPublicRegister new student or adminPOST/api/auth/loginPublicAuthenticate user and return JWTGET/api/complaints/my-complaintsStudentFetch all complaints submitted by logged-in studentPOST/api/complaintsStudentCreate a new complaint (supports file upload)GET/api/complaints/:idAuthenticatedGet detailed information for a single complaintGET/api/admin/complaintsAdminFetch all system complaints with filter/search queriesPUT/api/admin/complaints/:idAdminUpdate complaint status, priority, assignment, and commentsGET/api/admin/statsAdminRetrieve basic complaint resolution statistics9. Folder StructurePlaintextcollege-complaint-system/
+├── client/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── context/
+│   │   ├── services/
+│   │   └── App.js
+│   └── package.json
+└── server/
+    ├── config/
+    │   └── db.js
+    ├── controllers/
+    │   ├── authController.js
+    │   ├── complaintController.js
+    │   └── adminController.js
+    ├── middleware/
+    │   ├── auth.js
+    │   └── upload.js
+    ├── models/
+    │   ├── User.js
+    │   └── Complaint.js
+    ├── routes/
+    │   ├── authRoutes.js
+    │   ├── complaintRoutes.js
+    │   └── adminRoutes.js
+    ├── .env
+    ├── package.json
+    └── server.js
+10. Development Phases & RoadmapPhase 1: Setup & Data Modeling — Project setup, MongoDB connection configuration, database schemas creation.Phase 2: Authentication & Backend APIs — Build JWT auth, student complaint endpoints, and admin management APIs.Phase 3: Frontend Integration — Create UI views for authentication, submission forms, and student/admin dashboards using Axios connections.Phase 4: Testing & Deployment — Execute end-to-end testing, resolve database connection issues, and deploy backend (e.g., Render) and frontend (e.g., Vercel).11. UI & UX RequirementsClear color-coded badges indicating complaint status and priority levels.Simple submission form with image preview before uploading.Responsive layouts designed for both desktop screens and mobile web browsers.Instant visual feedback (spinners, alert banners) for action confirmation and server error states.12. Security RequirementsPasswords stored securely using bcrypt hashing algorithms.Protected backend routes validated via JWT bearer token middleware.Server-side input validation to sanitize payload inputs and prevent injection attacks.Explicit CORS configuration allowing cross-origin requests exclusively from the designated client domain.13. Final Expected OutcomeA fully operational, deployed web application where students can register, submit complaints with images, and view real-time status updates, while administrators can efficiently assign staff, manage workflows, update resolution progress, and view basic platform metrics.

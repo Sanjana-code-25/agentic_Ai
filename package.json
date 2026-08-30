@@ -1,0 +1,26 @@
+{
+  "name": "college-complaint-management-system",
+  "version": "1.0.0",
+  "description": "Centralized web-based College Complaint Management System",
+  "scripts": {
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "seed": "npm --prefix server run seed",
+    "start:server": "npm --prefix server start",
+    "build:client": "npm --prefix client run build",
+    "install-all": "npm --prefix server install && npm --prefix client install"
+  },
+  "keywords": [
+    "complaint-management",
+    "college",
+    "grievance",
+    "react",
+    "express",
+    "mongodb"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^7.6.0"
+  }
+}
